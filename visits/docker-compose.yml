@@ -5,6 +5,7 @@ services:
   redis-server:
     image: 'redis'
   node-app: 
+    restart: on-failure
   #we are building the docker file in current directory
     build: .
     ports:

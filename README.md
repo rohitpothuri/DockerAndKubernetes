@@ -1,6 +1,6 @@
 # DockerAndKubernetes
 
-Commands Cheatsheet
+## Commands Cheatsheet
 
 - docker run -i -t debian /bin/bash
 	-  to get a shell of the container
@@ -54,7 +54,7 @@ Commands Cheatsheet
 - docker swarm leave --force # Take down a single node swarm from the manager
 ---
 
-Docker File Creation
+## Docker File Creation
 
 
 ```
@@ -72,18 +72,19 @@ After we create the above dockerFile. we will build it using docker build comman
 
 This will build the docker file and create an image with an id eg(ec27497b3f68272228bf9e99388210087ab022571c6b447f3be8d97e6fa38084) shown in the above image
 
-FROM 
-	Tell us which base image to use
-RUN
-	Once we have the base image container, whatever is mentioned in the run command is executed and here we are going to install Redis. A temporary container is used to installed all this and once it is done we saving the file snaphost.
-CMD
-	Once we have an image with Redis installed, we are telling which command to run. This will be the primary command for the container. This final image is what will be used to start the docker container.
+- FROM 
+	- Tell us which base image to use
+- RUN
+	- Once we have the base image container, whatever is mentioned in the run command is executed and here we are going to install Redis. A temporary container is used to installed all this and once it is done we saving the file snaphost.
+- CMD
+  - Once we have an image with Redis installed, we are telling which command to run. This will be the primary command for the container. This final image is what will be used to start the docker container.
+
 In short whenever we move from one step to another a temporary container is created, a FS snapshot is created and passed to the next step as image. In the last step we get the final image that is eventually used. In our case the id of that image is ec27497b3f68272228bf9e99388210087ab022571c6b447f3be8d97e6fa38084
 
-WORKDIR
-	can be used to fix a working directory in Dockerfile
-COPY
-	is used to copy the files from the local file system to the container file system
+- WORKDIR
+	- can be used to fix a working directory in Dockerfile
+- COPY
+	- is used to copy the files from the local file system to the container file system
 	Since the change of files sometimes can trigger cache build, its better to carefully validate and split the files to multiple steps i.e files that wont change much should be copied first and files that change a lot and are not dependent of container builds can be moved to the last
 
 ```
@@ -107,22 +108,46 @@ eg: docker build -t rpothuri/redis:latest .
 
 we can now run the above image using docker run rpothuri/redis[:version]. version is optional. If not mentioned it uses latest.
 
+
 We can use the existing images to modify them and install new things. For example
 docker run -it alpine sh
-	This gives shell of the alpine container
-	Once we have the shell we can do  --> apk add --update  redis
-	This will install redis
+- This gives shell of the alpine container
+- Once we have the shell we can do  --> apk add --update  redis-
+- This will install redis
 	Now we can exit of the container, get the id of it using docker ps
 We commit the changes we have done to the container to be used next time
 	docker commit -c 'CMD ["redis-server"]' <docker id> 
 when we mention the id we dont have to mention the full long id, we can get first few chars as long as it is unique.
+
+
 ---
-docker compose 
-	will use the yaml file and will take care of the build and run
-	docker-compose up 
-		this is the command to use to start the containers
-	docker-compose up  -- build
-		to rebuild the container
+## Docker Compose 
+Always run the command in the directory where we have compose file
+Uses the yaml file and will take care of the build and run
+
+- **docker-compose up **
+	 - this is the command to use to start the containers. to run it on background use "-d"
+- docker-compose up  -- build
+	- to rebuild the container.
+- docker-compose down
+	- stops all the containers that were started using docker compose
+- docker-compose ps
+	- used to find all running containers after startup	
+
+---
+## Restart Policies
+changes are done to compose file
+- "no"
+	- default.Dont restart on failures. This has to be added in quotes if specifiying explicity as 'no'
+- "always"
+	 - always attempt to restart for any failure.
+- "on-failure"
+	- Only restart if the container stops with an error code
+- "unless-stopped"
+	- Always restart unless we forcibly stop it
+
+
+
 	
 	
 	

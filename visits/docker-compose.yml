@@ -1,0 +1,13 @@
+#version of docker compose we want to use
+version: '3'
+services:
+#List of all containers we want to spin up
+  redis-server:
+    image: 'redis'
+  node-app: 
+  #we are building the docker file in current directory
+    build: .
+    ports:
+    # first value is local machine port and second is container port
+      - "4001:8081"
+      

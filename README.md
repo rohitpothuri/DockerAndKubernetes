@@ -26,6 +26,7 @@
 	- list the docker containers
 - docker build -t <image name>
 	-  to build a docker image using specified name from Dockerfile
+	- -f can be mentioned to provide dockerfile name incase we are using dev dockerfile
 - docker run -p 4000:80 <containername>
 	-  port mapping 4000 machine port to 80 of container exposed
 - docker run -d -p 4000:80 <containername> 
@@ -125,7 +126,7 @@ when we mention the id we dont have to mention the full long id, we can get firs
 Always run the command in the directory where we have compose file
 Uses the yaml file and will take care of the build and run
 
-- **docker-compose up **
+- docker-compose up 
 	 - this is the command to use to start the containers. to run it on background use "-d"
 - docker-compose up  -- build
 	- to rebuild the container.
@@ -145,6 +146,17 @@ changes are done to compose file
 	- Only restart if the container stops with an error code
 - "unless-stopped"
 	- Always restart unless we forcibly stop it
+
+---
+# Production Grade workflows
+npx create-react-app frontend
+Dockerfile.dev can be used for development environment
+
+---
+
+## Docker Volumes
+- Used to map paths in local to paths in the container so we dont have to build the image everytime there is a change in the app code
+- - docker run -p [local port]:[container port] -v /app/node_modules -v $(pwd):/app [image id]
 
 
 

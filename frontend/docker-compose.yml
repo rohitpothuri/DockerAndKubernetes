@@ -1,0 +1,16 @@
+version: '3'
+services:
+  web:
+    build: 
+    # this is the folder location we are asking compose to look into
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      # map local port 3000 with container port 3000
+      - "3000:3000"
+    volumes:
+      # donot map anything for below folder in container
+      - /app/node_modules
+      # map current folder to app folder in the container
+      - .:/app
+      

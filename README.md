@@ -29,6 +29,8 @@
 	- -f can be mentioned to provide dockerfile name incase we are using dev dockerfile
 - docker run -p 4000:80 <containername>
 	-  port mapping 4000 machine port to 80 of container exposed
+- docker run <containername> npm run test
+	-  Whatever we mention in the CMD can be overwritten by sending the command options in the last.
 - docker run -d -p 4000:80 <containername> 
 	-  to run on background use -d
 - docker tag <containername> rohitpothuri/get-started:part2 
@@ -156,9 +158,12 @@ Dockerfile.dev can be used for development environment
 
 ## Docker Volumes
 - Used to map paths in local to paths in the container so we dont have to build the image everytime there is a change in the app code
-- - docker run -p [local port]:[container port] -v /app/node_modules -v $(pwd):/app [image id]
+- docker run -p [local port]:[container port] -v /app/node_modules -v ${PWD}:/app [image id]
+	- When we  use a : we are saying map everything in the local directory with a folder inside the container
+	- when we dont have a : i.e in -v /app/node_modules, we are saying to consider it only as a place holder in the container and dont try to map it with anything else
+	-  All these can be mentioned in the docker compose file instead of useing the long docker run command. see docker compose file inside frontend app
 
-
+## Build Phases
 
 	
 	
